@@ -1,0 +1,62 @@
+# Criando Banco de dados loja
+
+CREATE DATABASE loja;
+
+USE loja;
+
+# Criando tabelas produtos, categoria e vendas e seus atribuindos.
+
+CREATE TABLE produtos(
+    codigo INT (3) NOT NULL AUTO_INCREMENT,
+    nome VARCHAR (50) NOT NULL,
+    valor DECIMAL (6,2) NOT NULL,
+    idCategoria INT (3) NOT NULL
+    CONSTRAINT fk_produtos_categria FOREIGN KEY (idCategoria) REFERENCES categoria (id)
+);
+
+CREATE TABLE categoria(
+    id INT (3) NOT NULL PRIMARY KEY,
+    nome VARCHAR (50) NOT NULL
+);
+
+CRATE TABLE vendas(
+    id INT (11) NOT NULL PRIMARY KEY,
+    produtoId (11) NOT NULL,
+    dataVenda DATE NOT NULL,
+    quantidade int (11) NOT NULL
+);
+# Inserindo dados nas tabelas.
+
+INSERT INTO produtos(codigo, nome, valor, idCategoria) VALUES
+(1, 'CÓDIGO DA VINCI' 39.99, 2),
+(, 'HANCOCK', 89.99, 1),
+(3, 'DIÁRIO DE UM MAGO', 19.99, 2)
+(4, 'EU SOU A LENDA', 39.99, 1);
+
+INSERT INTO categoria (id, nome) VALUES
+(1, 'DVD'), (2, 'LIVRO'), (3, 'INFORMÁTICA');
+
+INSERT INTO vendas (id, produtoId, dataVenda, quantidade) VALUES
+(1, 4, '2023-10-12', 1),
+(2, 2, '2023-12-23', 4),
+(3, 1, '2023-09-11', 2);
+# Criando um procedure
+DELIMITER $$
+CREATE PROCEDURE RelatorioDiario()
+BEGIN
+	SELECT 
+        produtos.nome,
+        vendas.dataVenda,
+        Vendas.quantidade as QuantidadeVendida
+    FROM 
+        Vendas
+    INNER JOIN 
+        Produtos ON vendas.produtoId = produtos.codigo
+    GROUP BY 
+        produtos.nome, vendas.dataVenda
+    ORDER BY 
+        Vendas.DataVenda DESC;
+END $$
+DELIMITER ;
+
+CALL RelatorioDiario;
