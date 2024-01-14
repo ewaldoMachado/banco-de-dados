@@ -21,7 +21,7 @@ CREATE TABLE categoria(
 
 CRATE TABLE vendas(
     id INT (11) NOT NULL PRIMARY KEY,
-    produtoId (11) NOT NULL,
+    produtoId INT (11) NOT NULL,
     dataVenda DATE NOT NULL,
     quantidade int (11) NOT NULL
 );
